@@ -2,16 +2,17 @@ from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn import preprocessing
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import silhouette_score
+from sklearn.decomposition import PCA
 import pandas as pd
 import matplotlib.pyplot as plt
 
 #从csv读取数据
 data = pd.read_csv(r"/Code/car_data.csv", encoding="GBK")
-tran_x = data[["地区","人均GDP","城镇人口比重","交通工具消费价格指数","百户拥有汽车量"]]
+tran_x = data[["人均GDP","城镇人口比重","交通工具消费价格指数","百户拥有汽车量"]]
 #print(tran_x)
 #格式化地区数据
-le = LabelEncoder()
-tran_x["地区"] = le.fit_transform(tran_x["地区"])
+#le = LabelEncoder()
+#tran_x["地区"] = le.fit_transform(tran_x["地区"])
 #print(tran_x)
 #格式化整体数据【0-1】
 min_max_scaler = preprocessing.MinMaxScaler()
@@ -41,12 +42,23 @@ plt.xlabel('k')
 plt.ylabel('SCS')
 plt.plot(k,sc_scores,'*-')
 plt.show()
-#通过手肘和轮廓系数确定K为4
+#通过手肘和轮廓系数确定K为3
 kmeans = KMeans(n_clusters=4)
 kmeans.fit(tran_x)
 preidct_y = kmeans.predict(tran_x)
+'''
+print(preidct_y)
+print(tran_x)
+pca = PCA(n_components=2)
+tran_x_deco = pca.fit_transform(tran_x)
+print(tran_x_deco)
+print(tran_x_deco[:,0])
+print(tran_x_deco[:,1])
+plt.xlabel('tran_x_deco[,0]')
+plt.ylabel('tran_x_deco[,1]')
+plt.show()
+'''
 #合并数据
 data["聚合"] = preidct_y
 data = data.sort_values("聚合", ascending=False)
-print(data)
 data.to_csv("result.csv", encoding="GBK")
