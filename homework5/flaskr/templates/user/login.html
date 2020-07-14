@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header%}
+    <h1>{% block title %}Login{% endblock %}</h1>
+{% endblock %}
+
+{% block content%}
+    <form method="post">
+        <label for="username">用户名：</label>
+        <input name="username" id="username" required>
+        <label for="pwd">密码：</label>
+        <input name="pwd" id="pwd" type="password" required>
+        <input type="submit" value="Login">
+    </form>
+{% endblock %}

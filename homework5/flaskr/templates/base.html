@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<title>{% block titile %}{% endblock %}  -  Wordcloud</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+<nav>
+    <h1>Wordcloud</h1>
+    <ul>
+        {% if session['username'] %}
+            <li><span>欢迎，{{ session['username'] }}回来！</span></li>
+            <li><a href="{{ url_for('user.logout') }}">Log Out</a></li>
+        {% else %}
+            <li><a href="{{ url_for('user.login') }}">Login</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<section class="body">
+    <header>{% block header %}{% endblock %}</header>
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</section>
