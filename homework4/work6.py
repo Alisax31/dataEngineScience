@@ -1,10 +1,10 @@
 #coding: utf-8
+import time
+import os
 import pandas as pd
 import numpy as np
 #import fptools as fp
 import pyfpgrowth as fp
-import time
-import os
 from efficient_apriori import apriori
 from mlxtend.frequent_patterns import apriori as apr
 from mlxtend.frequent_patterns import association_rules
@@ -57,8 +57,7 @@ def apriori_two(transcation, min_support, metric, min_threshold):
     pd.options.display.max_columns = 100
     print(rules)
 
-
-if __name__ == "__main__":
+def main():
     df = pd.read_csv(r"MarketBasket/Market_Basket_Optimisation.csv", header=None)
     transcation_efficient = transcationGenerator(df, "efficient")
     transcation_non_efficient = transcationGenerator(df, "non-efficient")
@@ -66,13 +65,10 @@ if __name__ == "__main__":
     apriori_one(transcation_efficient, support=0.05, confidence=0.3)
     print('-'*20, 'Apriori', '-'*20)
     apriori_two(transcation_non_efficient, 0.05,"confidence", 0.3)
-    #fp.build_tree()
-    #tree = fp.build_tree(transcation_efficient,minsup=0.06)
-    #itemsets = fp.frequent_itemsets(transcation_efficient, minsup=5)
-    #print(itemsets.)
-    #for n in itemsets:
-    #print(n)
     print('-'*20, 'FP-GROWTH', '-'*20)
     patterns = fp.find_frequent_patterns(transcation_efficient, 20)
     rules = fp.generate_association_rules(patterns, 0.3)
-    print('关联规则：', '\n', rules)
+    print('关联规则：', '\n', rules)    
+
+if __name__ == "__main__":
+    main()
