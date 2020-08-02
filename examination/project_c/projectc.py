@@ -89,10 +89,10 @@ if __name__ == '__main__':
     path = r'./CarPrice_Assignment.csv'
     data = data_import(path)
     tran_x = data_tran(data)
-    #confirmK(data)
+    confirmK(data)
     #通过手肘法，轮廓系数确认K值
-    #k = input('请输入K值：')
-    kmeans = KMeans(n_clusters=12)
+    k = input('请输入K值：')
+    kmeans = KMeans(n_clusters=k)
     kmeans.fit(tran_x)
     predict_y = kmeans.predict(tran_x)
     generate_result(data, predict_y)
