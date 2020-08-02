@@ -56,7 +56,7 @@ def projectb():
 
 @bp.route('/projectc', methods=('GET','POST'))
 def projectc():
-    if req.method == 'POST':
+    if req.method == 'POST' and req.form['cfilename'] == '':
         f = req.files['uploadfilec']
         filename = secure_filename(f.filename)
         abspath = ult.generate_abspath(__file__, 'upload')
@@ -65,6 +65,15 @@ def projectc():
         df = pc.data_import(abspath)
         tran_x = pc.data_tran(df)
         image_path = ult.generate_abspath(__file__, 'static/image/')
-       # pc.sse(tran_x, image_path)
+        pc.sse(tran_x, image_path)
         pc.sc_scores(tran_x, image_path)
-        return render_template('examination/exam.html', sse_imgsrc='sse.png', sc_imgsrc='sc_scores.png')
+        return render_template('examination/exam.html', sse_imgsrc='sse.png', sc_imgsrc='sc_scores.png', cfilename=filename)
+    elif req.method == 'POST' and req.form['cfilename'] != '':
+        filename = req.form['cfilename']
+        abspath = ult.generate_abspath(__file__, 'upload')
+        abspath = abspath + '\\' + filename
+        df = pc.data_import(abspath)
+        tran_x = pc.data_tran(df)
+        predict_y = pc.kmeans(int(req.form['k']), tran_x)
+        path = pc.generate_result(df, predict_y)
+        return send_from_directory(path, 'project_c_result.csv', as_attachment=True)

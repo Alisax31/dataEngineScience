@@ -5,6 +5,7 @@ from sklearn import preprocessing
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import silhouette_score
+from . import pyult as ult
 import matplotlib.pyplot as plt
 
 #数据从csv导入
@@ -68,23 +69,33 @@ def sc_scores(tran_x, path):
 def generate_result(data, predict_y):
     #直接生成预测结果总表
     data['predict_y'] = predict_y
-    data.to_csv('project_c_result.csv', encoding='utf-8')
-    #通过找到有vw关键字的车辆对应的预测值进行分类输出
-    data_list_containvw = data.loc[data['CarName'].str.contains('vw')]
-    vw_predict_y = data_list_containvw['predict_y'].to_list()
-    vw_predict_y_nodup = []
-    #如果vw车辆在同一分组输出同一分组内所有数据
-    #如果vw车辆不在同一分组输出VW车辆所在不同分组内所有数据
-    for item in vw_predict_y:
-        if item not in vw_predict_y_nodup:
-            vw_predict_y_nodup.append(item)
-    #分组输出
-    for i in range(0,len(vw_predict_y_nodup)):
-        #定义临时路径
-        temp_dir = 'project_c_cluster_'+str(vw_predict_y[i])+'.csv'
-        #找到和vw车辆同一个预测值对应数据集并输出csv
-        data.loc[data['predict_y']==vw_predict_y[i]].to_csv(temp_dir, encoding='utf-8')
+    path = ult.generate_abspath(__file__, 'download')
+    data.to_csv(path+'/project_c_result.csv', encoding='utf-8')
+    return path
+    # #通过找到有vw关键字的车辆对应的预测值进行分类输出
+    # data_list_containvw = data.loc[data['CarName'].str.contains('vw')]
+    # vw_predict_y = data_list_containvw['predict_y'].to_list()
+    # vw_predict_y_nodup = []
+    # reuslt = []
+    # #如果vw车辆在同一分组输出同一分组内所有数据
+    # #如果vw车辆不在同一分组输出VW车辆所在不同分组内所有数据
+    # for item in vw_predict_y:
+    #     if item not in vw_predict_y_nodup:
+    #         vw_predict_y_nodup.append(item)
+    # #分组输出
+    # for i in range(0,len(vw_predict_y_nodup)):
+    #     #定义临时路径
+    #     temp_dir = ult.generate_abspath(__file__, 'download')+'project_c_cluster_'+str(vw_predict_y[i])+'.csv'
+    #     #找到和vw车辆同一个预测值对应数据集并输出csv
+    #     reuslt.append('project_c_cluster_'+str(vw_predict_y[i])+'.csv')
+    #     data.loc[data['predict_y']==vw_predict_y[i]].to_csv(temp_dir, encoding='utf-8')
+    # return reuslt
 
+def kmeans(k,tran_x):
+    kmeans = KMeans(n_clusters=k)
+    kmeans.fit(tran_x)
+    predict_y = kmeans.predict(tran_x)
+    return predict_y
 # if __name__ == '__main__':
 #     path = r'./CarPrice_Assignment.csv'
 #     data = data_import(path)

@@ -51,10 +51,15 @@
         <span>轮廓法结果：</span>
         <br>
         <img src="{% if sc_imgsrc %} /static/image/{{sc_imgsrc}} {% endif %}" />
+        <input type='hidden' name='cfilename' value='{{ cfilename }}' />
         <br>
+        <input type='submit' value='上传'/>
+    </form>
+    <form method="POST" action='/examination/projectc'>    
         <span>输入K:</span>
         <input type='text' name='k' value='' />
         <br>
-        <input type='submit' value='上传并处理'/>
+        <input type='hidden' name='cfilename' value='{{ cfilename }}' />
+        <input type='submit' value='处理'/>
     </form>
 {% endblock %}
