@@ -1,0 +1,29 @@
+#logo{
+    float: left;
+}
+#salgon{
+    float: left;
+    font-size: xx-large;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+
+#loginForm{
+    float: right;
+}
+#pic{
+    float: left;
+}
+#submit{
+    width: 164.8px;
+    background-color: #3364eb;
+    border-color: none;
+    color: #ffffff;
+}
+.username{
+    float: left;
+}
+.password{
+    float: left;
+}

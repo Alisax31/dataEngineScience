@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Exam{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <h1>Project A</h1>
+    <form method='POST' action="/examination/projecta">
+        <label>爬取的网站链接：</label>
+        <input type="text" name='url' value='http://car.bitauto.com/xuanchegongju/?l=8&mid=8' readonly='True'>
+        <span></span>
+        <input type="submit" value="运行" {% if downloadflag %} disabled='True' {% endif %}>
+    </form>
+    <br>
+    <!-- {% if downloadflag %}
+    <a href="{{ url_for('examination.download') }}">点击下载</a>
+    {% endif %} -->
+    <h1>Project B</h1>
+    <form method = 'POST' enctype="multipart/form-data" action="/examination/projectb">
+        <label>上传订单表：</label>
+        <input type='file' name='uploadfileb' value=""/>
+        <br>
+        <label>请选择Apriori算法</label>
+        <input type='radio' name='aproption' value='0' checked='True' />
+        <span>Efficient Apriori</span>
+        <input type='radio' name='aproption' value='1' />
+        <span>Mlxtend Apriori</span>
+        <br>
+        <label>请输入最小置信度：</label>
+        <input type='text' name='min_confidence' value='0.45' />
+        <br>
+        <label>请输入最小支持度：</label>
+        <input type='text' name='min_support' value='0.05' />
+        <br>
+        <input type='submit' value='上传并处理'/>
+    </form>
+    <br>
+    {% if itemsets %}<p>频繁项集：{{itemsets}}</p>{% endif %}
+    {% if rules %}<p>推荐规则：{{rules}}</p>{% endif %}
+    <br>
+    <h1>Project C</h1>
+    <form method = 'POST' enctype="multipart/form-data" action="/examination/projectc">
+        <label>上传竞品车辆表：</label>
+        <input type='file' name='uploadfilec' value=""/>
+        <br>
+        <label>手肘法结果：</label>
+        <br>
+        <img src="{% if sse_imgsrc %} /static/image/{{sse_imgsrc}} {% endif %}" />
+        <br>
+        <span>轮廓法结果：</span>
+        <br>
+        <img src="{% if sc_imgsrc %} /static/image/{{sc_imgsrc}} {% endif %}" />
+        <br>
+        <span>输入K:</span>
+        <input type='text' name='k' value='' />
+        <br>
+        <input type='submit' value='上传并处理'/>
+    </form>
+{% endblock %}

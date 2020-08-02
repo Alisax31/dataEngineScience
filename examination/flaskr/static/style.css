@@ -1,0 +1,23 @@
+.head{
+    float:left;
+    height: 132px;
+    width : 100%;
+    background-color: bisque;    
+}
+.head h1{
+    text-align: center;
+}
+.head ul{
+    text-decoration: none;
+    text-align: right;
+}
+.body{
+    float:left;
+    width : 100%;
+    background-color: burlywood;
+}
+.foot{
+    float:left;
+    width : 100%;
+    background-color: darkgreen;
+}
