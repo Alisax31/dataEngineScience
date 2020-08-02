@@ -9,3 +9,6 @@
 
 ## project c  
 通过处理csv文件，格式化数据，进行轮廓系数以及手肘法获取最优聚簇值，再用kmeans训练模型得出预测值
+
+## flaskr
+结合project abc 整合了一个小型flask应用，因为时间不够，还不够完善
