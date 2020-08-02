@@ -41,6 +41,7 @@ def sse(tran_x):
     plt.xlabel('k')
     plt.ylabel('SSE')
     plt.plot(x,sse,'o-')
+    plt.savefig('img1.png')
     plt.show()
 #轮廓系数
 def sc_scores(tran_x):
@@ -54,6 +55,7 @@ def sc_scores(tran_x):
     plt.xlabel('k')
     plt.ylabel('SCS')
     plt.plot(k,sc_scores, '*-')
+    plt.savefig('img2.png')
     plt.show()
 #通过手肘法，轮廓系数确定K值
 def confirmK(df):
@@ -67,7 +69,9 @@ def generate_result(data, predict_y):
     data.to_csv('project_c_result.csv', encoding='utf-8')
     #通过找到有vw关键字的车辆对应的预测值进行分类输出
     data_list_containvw = data.loc[data['CarName'].str.contains('vw')]
-    vw_predict_y = data_list_containvw['predict_y'].to_list()
+    data_list_containwagen = data.loc[data['CarName'].str.contains('volkswagen')]
+    rs = pd.concat([data_list_containwagen,data_list_containvw], axis=0, ignore_index=True)
+    vw_predict_y = rs['predict_y'].to_list()
     vw_predict_y_nodup = []
     #如果vw车辆在同一分组输出同一分组内所有数据
     #如果vw车辆不在同一分组输出VW车辆所在不同分组内所有数据
@@ -85,10 +89,10 @@ if __name__ == '__main__':
     path = r'./CarPrice_Assignment.csv'
     data = data_import(path)
     tran_x = data_tran(data)
-    confirmK(data)
+    #confirmK(data)
     #通过手肘法，轮廓系数确认K值
-    k = input('请输入K值：')
-    kmeans = KMeans(n_clusters=k)
+    #k = input('请输入K值：')
+    kmeans = KMeans(n_clusters=12)
     kmeans.fit(tran_x)
     predict_y = kmeans.predict(tran_x)
     generate_result(data, predict_y)
